@@ -33,3 +33,12 @@ This checks image/label pairing, class IDs and normalised box values in all thre
 For a new training experiment, follow [Ultralytics YOLOv5's installation and training documentation](https://github.com/ultralytics/yolov5). A historical source revision is `915bbf294bb74c859f0b41f1c23bc395014ea679` (v7.0). In a separate compatible PyTorch environment, install that revision's requirements and point its `train.py --data` argument at the generated absolute `data.local.yaml` path. Start with a one-epoch smoke run before the notebook's 120-epoch experiment. The external training environment, pretrained weights download and GPU training are not verified here; no new detector metrics or weights are claimed.
 
 Maintenance code and documentation were prepared with AI assistance.
+Validation completed on all included splits: 67 training, 19 validation and 9 test image/label pairs.
+
+## Detector, libraries and configuration
+
+The notebook uses **Ultralytics YOLOv5**, a **PyTorch-based object detector**, starting from `yolov5s.pt` rather than implementing the detector architecture from scratch. Its original training command specifies image size 640 and 120 epochs. The **Roboflow Python SDK** retrieves dataset version 2; the checked-in dataset also permits a local validation route without a credential.
+
+The four dataset classes are `Left-Turn`, `Right-Turn`, `straight` and `unexpected`. YOLO label rows contain a class index plus normalised centre-x, centre-y, width and height. `validate_data.py` uses Python's standard library (`pathlib`, `math`, `json`, `argparse`) to check labels and produce portable dataset paths. It does not train a model or check visual annotation accuracy.
+
+The historical notebook invokes YOLOv5 training and detection scripts. No trained checkpoint, reproduced mAP, precision/recall benchmark or deployment is supplied. The 95-image dataset is small; its split and annotation quality need review before making performance claims.
